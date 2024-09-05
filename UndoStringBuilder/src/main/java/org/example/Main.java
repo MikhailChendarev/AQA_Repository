@@ -21,5 +21,14 @@ public class Main {
         usb.reverse();
         System.out.println(usb);
 
+        usb.undo();
+        System.out.println(usb);
+
+        usb.undo();
+        System.out.println(usb);
+
+        usb.undo();
+        System.out.println(usb);
+
     }
 }
