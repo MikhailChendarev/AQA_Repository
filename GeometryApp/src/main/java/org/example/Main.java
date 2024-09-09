@@ -4,6 +4,7 @@ package org.example;
 import org.example.geometry.Circle;
 import org.example.geometry.Rectangle;
 import org.example.geometry.Triangle;
+import org.example.geometry.utils.GeometryUtils;
 
 public class Main {
     public static void main(String[] args) {
@@ -19,5 +20,12 @@ public class Main {
 
         System.out.println("Triangle area: " + triangle.getArea());
         System.out.println("Triangle perimeter: " + triangle.getPerimeter());
+
+        double areaInMeters = 10;
+        double areaInCentimeters = GeometryUtils.convertToCentimeters(areaInMeters);
+        System.out.println("Area in centimeters: " + areaInCentimeters);
+
+        boolean areEqual = GeometryUtils.areEqualAreas(100, 100);
+        System.out.println("Are areas equal: " + areEqual);
     }
 }
