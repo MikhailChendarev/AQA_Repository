@@ -4,6 +4,8 @@ package org.example;
 import org.example.geometry.Circle;
 import org.example.geometry.Rectangle;
 import org.example.geometry.Triangle;
+import org.example.geometry.threedimensional.Cube;
+import org.example.geometry.threedimensional.Sphere;
 import org.example.geometry.utils.GeometryUtils;
 
 public class Main {
@@ -31,5 +33,12 @@ public class Main {
         double squareMeters = 10;
         double squareCentimeters = GeometryUtils.convertSquareMetersToSquareCentimeters(squareMeters);
         System.out.println(squareMeters + " square meters are equal " + squareCentimeters + " square centimeters.");
+
+        Sphere sphere = new Sphere(5);
+        System.out.println("Sphere volume is: " + sphere.getVolume() + " Sphere SurfaceArea: " + sphere.getSurfaceArea());
+
+        Cube cube = new Cube(5);
+        System.out.println("Cube volume is: " + cube.getVolume() + " Cube SurfaceArea: " + cube.getSurfaceArea());
+
     }
 }
