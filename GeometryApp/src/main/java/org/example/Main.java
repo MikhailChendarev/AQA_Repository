@@ -27,5 +27,9 @@ public class Main {
 
         boolean areEqual = GeometryUtils.areEqualAreas(100, 100);
         System.out.println("Are areas equal: " + areEqual);
+
+        double squareMeters = 10;
+        double squareCentimeters = GeometryUtils.convertSquareMetersToSquareCentimeters(squareMeters);
+        System.out.println(squareMeters + " square meters are equal " + squareCentimeters + " square centimeters.");
     }
 }
