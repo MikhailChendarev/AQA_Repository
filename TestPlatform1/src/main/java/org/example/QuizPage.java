@@ -7,6 +7,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 public class QuizPage {
+
     private WebDriver driver;
 
     @FindBy(xpath = "//div[@class='mainCont']")

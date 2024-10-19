@@ -7,6 +7,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 public class InterviewsPage {
+
     private WebDriver driver;
 
     @FindBy(xpath = "//div[@id='example2_length']")

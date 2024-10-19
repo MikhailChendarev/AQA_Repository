@@ -7,6 +7,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 public class QuestionPage {
+
     private WebDriver driver;
 
     @FindBy(xpath = "//div[@class='mainCont']")
@@ -37,6 +38,6 @@ public class QuestionPage {
     }
 
     public boolean isQuestionDisplayed(String question) {
-        return questionTable.findElement(By.xpath("//span[text()='" + question + "']")).isDisplayed();
+        return questionTable.findElement(By.xpath("//div[text()='" + question + "']")).isDisplayed();
     }
 }

@@ -1,15 +1,23 @@
 package org.example;
 
+import com.opencsv.CSVReaderHeaderAware;
+import com.opencsv.exceptions.CsvException;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import org.testng.annotations.AfterClass;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Paths;
 import java.time.Duration;
+import java.util.Map;
 
 public class MainTest {
 
@@ -91,5 +99,32 @@ public class MainTest {
         coursePage.createCourse("course", "1001");
         Assert.assertTrue(coursePage.isCourseDisplayed("course"));
     }
-}
 
+    @Test(priority = 7)
+    public void processUserDataTest() {
+        driver.get("https://aqa-admin.javacode.ru/users");
+        WebElement addNewUserButton = driver.findElement(By.xpath("//button[text()='+ Добавить']"));
+        addNewUserButton.click();
+        try (CSVReaderHeaderAware reader = new CSVReaderHeaderAware(new FileReader(Paths.get("src/main/resources/pairwiseUsers.csv").toFile()))) {
+            Map<String, String> record;
+            while ((record = reader.readMap()) != null) {
+                UsersPage usersPage = new UsersPage(driver);
+                usersPage.fillForm(
+                        record.get("Имя"),
+                        record.get("Фамилия"),
+                        record.get("email"),
+                        record.get("username"),
+                        record.get("plain_password"),
+                        record.get("roles"),
+                        Boolean.parseBoolean(record.get("isCV")),
+                        record.get("Открытие поиска"),
+                        record.get("Статус поиска")
+                );
+            }
+        } catch (IOException | CsvException e) {
+            e.printStackTrace();
+        } finally {
+            driver.quit();
+        }
+    }
+}

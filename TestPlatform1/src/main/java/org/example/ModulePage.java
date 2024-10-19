@@ -8,6 +8,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 public class ModulePage {
+
     private WebDriver driver;
 
     @FindBy(xpath = "//div[@class='mainCont']")
@@ -28,7 +29,7 @@ public class ModulePage {
     @FindBy(xpath = "//input[@class='form-control ' and @placeholder='ID для перемещения']")
     private WebElement idField;
 
-    @FindBy(xpath = "//button[@class='btn-primary btn']")
+    @FindBy(xpath = "//button[text()='Переместить по Id']")
     private WebElement transferButton;
 
     @FindBy(xpath = "//button[@class='btn-primary btn ' and text()='Create']")
