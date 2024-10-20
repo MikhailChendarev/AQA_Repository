@@ -34,7 +34,7 @@ public class UsersPage {
     @FindBy(xpath = "//input[@class='form-control ib' and @type='checkbox']")
     private WebElement isCVField;
 
-    @FindBy(xpath = "//input[@class='react-datepicker-ignore-onclickoutside' and @type='text']")
+    @FindBy(xpath = "//div[@class='react-datepicker__input-container']/input[@type='text']")
     private WebElement searchOpeningField;
 
     @FindBy(xpath = "//button[contains(@class, 'btn-success')]")
