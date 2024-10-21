@@ -3,14 +3,10 @@ package org.example;
 import com.opencsv.CSVReaderHeaderAware;
 import com.opencsv.exceptions.CsvException;
 import org.example.pages.*;
-import org.example.utils.BaseTest;
+import org.example.utils.CsvUtils;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -87,30 +83,16 @@ public class MainTest extends BaseTest {
         Assert.assertTrue(coursePage.isCourseDisplayed("course"));
     }
 
-    @Test(priority = 7)
-    public void processUserDataTest() {
-        UsersPage usersPage = new UsersPage(driver);
+    @Test(priority = 7, dataProvider = "userData", dataProviderClass = CsvUtils.class)
+    public void processUserDataTest(String firstName, String lastName, String email,
+                                    String username, String password, String roles,
+                                    boolean isCV, String searchOpening, String searchStatus) {
+        driver.get("https://aqa-admin.javacode.ru/users");
         WebElement addNewUserButton = driver.findElement(By.xpath("//button[text()='+ Добавить']"));
-        try (CSVReaderHeaderAware reader = new CSVReaderHeaderAware(new FileReader(Paths.get("src/main/resources/pairwiseUsers.csv").toFile()))) {
-            Map<String, String> record;
-            while ((record = reader.readMap()) != null) {
-                addNewUserButton.click();
-                usersPage.fillForm(
-                        record.get("Имя"),
-                        record.get("Фамилия"),
-                        record.get("email"),
-                        record.get("username"),
-                        record.get("plain_password"),
-                        record.get("roles"),
-                        Boolean.parseBoolean(record.get("isCV")),
-                        record.get("Открытие поиска"),
-                        record.get("Статус поиска")
-                );
-                WebElement createNewUserButton = driver.findElement(By.xpath("//button[text()='Create']"));
-                createNewUserButton.click();
-            }
-        } catch (IOException | CsvException e) {
-            e.printStackTrace();
-        }
+        addNewUserButton.click();
+        UsersPage usersPage = new UsersPage(driver);
+        usersPage.fillForm(firstName, lastName, email, username, password, roles, isCV, searchOpening, searchStatus);
+        WebElement createNewUserButton = driver.findElement(By.xpath("//button[text()='Create']"));
+        createNewUserButton.click();
     }
 }

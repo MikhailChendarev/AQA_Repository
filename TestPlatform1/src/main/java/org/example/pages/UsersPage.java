@@ -1,6 +1,5 @@
 package org.example.pages;
 
-import org.example.utils.BasePage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -36,7 +35,7 @@ public class UsersPage extends BasePage {
     @FindBy(xpath = "//div[@class='react-datepicker__input-container']/input[@type='text']")
     private WebElement searchOpeningField;
 
-    @FindBy(xpath = "//button[contains(@class, 'btn-success')]")
+    @FindBy(xpath = "//button[text()='---']")
     private WebElement successButton;
 
     @FindBy(xpath = "//button[text()='active_search']")
