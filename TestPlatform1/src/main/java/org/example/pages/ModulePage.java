@@ -1,5 +1,6 @@
-package org.example;
+package org.example.pages;
 
+import org.example.utils.BasePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -7,12 +8,10 @@ import org.openqa.selenium.Point;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-public class ModulePage {
-
-    private WebDriver driver;
+public class ModulePage extends BasePage {
 
     @FindBy(xpath = "//div[@class='mainCont']")
-    WebElement moduleTable;
+    public WebElement moduleTable;
 
     @FindBy(xpath = "//button[text()='+ Добавить']")
     private WebElement addModuleButton;
@@ -36,7 +35,7 @@ public class ModulePage {
     private WebElement createButton;
 
     public ModulePage(WebDriver driver) {
-        this.driver = driver;
+        driver.get("https://aqa-admin.javacode.ru/course-module");
         PageFactory.initElements(driver, this);
     }
 

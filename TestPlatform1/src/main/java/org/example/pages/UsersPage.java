@@ -1,5 +1,6 @@
-package org.example;
+package org.example.pages;
 
+import org.example.utils.BasePage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -9,9 +10,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
-public class UsersPage {
-
-    private WebDriver driver;
+public class UsersPage extends BasePage {
 
     @FindBy(xpath = "//small[text()='Имя']/following-sibling::input")
     private WebElement firstNameField;
@@ -49,22 +48,24 @@ public class UsersPage {
     @FindBy(xpath = "//button[text()='on_project']")
     private WebElement onProjectButton;
 
+    @FindBy(xpath = "//button[text()='Create']")
+    protected WebElement CreateNewUserButton;
+
     public UsersPage(WebDriver driver) {
-        this.driver = driver;
+        driver.get("https://aqa-admin.javacode.ru/users");
         PageFactory.initElements(driver, this);
     }
 
     public void fillForm(String firstName, String lastName, String email,
                          String username, String password, String roles,
                          boolean isCV, String searchOpening, String searchStatus) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         wait.until(ExpectedConditions.visibilityOf(firstNameField)).sendKeys(firstName);
         wait.until(ExpectedConditions.visibilityOf(lastNameField)).sendKeys(lastName);
         wait.until(ExpectedConditions.visibilityOf(emailField)).sendKeys(email);
         wait.until(ExpectedConditions.visibilityOf(usernameField)).sendKeys(username);
         wait.until(ExpectedConditions.visibilityOf(passwordField)).sendKeys(password);
         wait.until(ExpectedConditions.visibilityOf(rolesField)).sendKeys(roles);
-
         if (isCV) {
             if (!isCVField.isSelected()) {
                 wait.until(ExpectedConditions.elementToBeClickable(isCVField)).click();
@@ -74,13 +75,12 @@ public class UsersPage {
                 wait.until(ExpectedConditions.elementToBeClickable(isCVField)).click();
             }
         }
-
         wait.until(ExpectedConditions.visibilityOf(searchOpeningField)).sendKeys(searchOpening);
         selectSearchStatus(searchStatus);
     }
 
     private void selectSearchStatus(String searchStatus) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         switch (searchStatus) {
             case "active_search":
                 wait.until(ExpectedConditions.elementToBeClickable(activeSearchButton)).click();
@@ -97,4 +97,3 @@ public class UsersPage {
         }
     }
 }
-

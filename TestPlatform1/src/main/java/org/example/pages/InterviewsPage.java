@@ -1,17 +1,16 @@
-package org.example;
+package org.example.pages;
 
+import org.example.utils.BasePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-public class InterviewsPage {
-
-    private WebDriver driver;
+public class InterviewsPage extends BasePage {
 
     @FindBy(xpath = "//div[@id='example2_length']")
-    WebElement interviewsTable;
+    public WebElement interviewsTable;
 
     @FindBy(xpath = "//button[text()='+ Добавить']")
     private WebElement addInterviewButton;
@@ -26,7 +25,7 @@ public class InterviewsPage {
     private WebElement createButton;
 
     public InterviewsPage(WebDriver driver) {
-        this.driver = driver;
+        driver.get("https://aqa-admin.javacode.ru/interviews");
         PageFactory.initElements(driver, this);
     }
 

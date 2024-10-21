@@ -1,13 +1,12 @@
-package org.example;
+package org.example.pages;
 
+import org.example.utils.BasePage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-public class LoginPage {
-
-    private WebDriver driver;
+public class LoginPage extends BasePage {
 
     @FindBy(id = "username")
     private WebElement usernameField;
@@ -19,7 +18,7 @@ public class LoginPage {
     private WebElement submitButton;
 
     public LoginPage(WebDriver driver) {
-        this.driver = driver;
+        driver.get("https://aqa-admin.javacode.ru/login");
         PageFactory.initElements(driver, this);
     }
 

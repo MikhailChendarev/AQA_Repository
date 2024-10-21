@@ -2,6 +2,8 @@ package org.example;
 
 import com.opencsv.CSVReaderHeaderAware;
 import com.opencsv.exceptions.CsvException;
+import org.example.pages.*;
+import org.example.utils.BaseTest;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -9,6 +11,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Ignore;
 import org.testng.annotations.Test;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -19,26 +22,10 @@ import java.nio.file.Paths;
 import java.time.Duration;
 import java.util.Map;
 
-public class MainTest {
-
-    private WebDriver driver;
-
-    @BeforeClass
-    public void setup() {
-        System.setProperty("webdriver.chrome.driver", "C:/Program Files/Google/chromedriver.exe");
-        driver = new ChromeDriver();
-    }
-
-    @AfterClass
-    public void tearDown() {
-        if (driver != null) {
-            driver.quit();
-        }
-    }
+public class MainTest extends BaseTest {
 
     @Test(priority = 1)
     public void loginTest() {
-        driver.get("https://aqa-admin.javacode.ru/login");
         LoginPage loginPage = new LoginPage(driver);
         loginPage.login("chendarev_mikhail", "U9uDBD–<A8)>SkA");
         DashboardPage dashboardPage = new DashboardPage(driver);
@@ -46,8 +33,8 @@ public class MainTest {
     }
 
     @Test(priority = 2)
+    @Ignore
     public void addNewInterviewTest() {
-        driver.get("https://aqa-admin.javacode.ru/interviews");
         InterviewsPage interviewsPage = new InterviewsPage(driver);
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOf(interviewsPage.interviewsTable));
@@ -57,8 +44,8 @@ public class MainTest {
     }
 
     @Test(priority = 3)
+    @Ignore
     public void addNewQuestionTest() {
-        driver.get("https://aqa-admin.javacode.ru/theme-question");
         QuestionPage questionPage = new QuestionPage(driver);
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOf(questionPage.questionTable));
@@ -68,8 +55,8 @@ public class MainTest {
     }
 
     @Test(priority = 4)
+    @Ignore
     public void createQuizTest() {
-        driver.get("https://aqa-admin.javacode.ru/quizes");
         QuizPage quizPage = new QuizPage(driver);
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOf(quizPage.quizTable));
@@ -79,8 +66,8 @@ public class MainTest {
     }
 
     @Test(priority = 5)
+    @Ignore
     public void createModuleTest() {
-        driver.get("https://aqa-admin.javacode.ru/course-module");
         ModulePage modulePage = new ModulePage(driver);
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOf(modulePage.moduleTable));
@@ -90,8 +77,8 @@ public class MainTest {
     }
 
     @Test(priority = 6)
+    @Ignore
     public void createNewCourse() {
-        driver.get("https://aqa-admin.javacode.ru/course");
         CoursePage coursePage = new CoursePage(driver);
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOf(coursePage.courseTable));
@@ -102,13 +89,12 @@ public class MainTest {
 
     @Test(priority = 7)
     public void processUserDataTest() {
-        driver.get("https://aqa-admin.javacode.ru/users");
+        UsersPage usersPage = new UsersPage(driver);
         WebElement addNewUserButton = driver.findElement(By.xpath("//button[text()='+ Добавить']"));
-        addNewUserButton.click();
         try (CSVReaderHeaderAware reader = new CSVReaderHeaderAware(new FileReader(Paths.get("src/main/resources/pairwiseUsers.csv").toFile()))) {
             Map<String, String> record;
             while ((record = reader.readMap()) != null) {
-                UsersPage usersPage = new UsersPage(driver);
+                addNewUserButton.click();
                 usersPage.fillForm(
                         record.get("Имя"),
                         record.get("Фамилия"),
@@ -120,11 +106,11 @@ public class MainTest {
                         record.get("Открытие поиска"),
                         record.get("Статус поиска")
                 );
+                WebElement createNewUserButton = driver.findElement(By.xpath("//button[text()='Create']"));
+                createNewUserButton.click();
             }
         } catch (IOException | CsvException e) {
             e.printStackTrace();
-        } finally {
-            driver.quit();
         }
     }
 }

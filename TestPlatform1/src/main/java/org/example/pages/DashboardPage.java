@@ -1,15 +1,14 @@
-package org.example;
+package org.example.pages;
 
+import org.example.utils.BasePage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-public class DashboardPage {
+public class DashboardPage extends BasePage {
 
-    private WebDriver driver;
-
-    @FindBy(xpath = "//div[@class='player ']")
+    @FindBy(xpath = "//div[@class='mainCont']")
     private WebElement dashboard;
 
     public DashboardPage(WebDriver driver) {
