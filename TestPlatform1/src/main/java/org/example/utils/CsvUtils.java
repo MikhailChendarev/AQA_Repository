@@ -19,6 +19,11 @@ public class CsvUtils {
         try (CSVReaderHeaderAware reader = new CSVReaderHeaderAware(new FileReader(Paths.get("src/main/resources/pairwiseUsers.csv").toFile()))) {
             Map<String, String> record;
             while ((record = reader.readMap()) != null) {
+                // Устанавливаем значение по умолчанию для "Статус поиска", если оно отсутствует
+                String searchStatus = record.get("Статус поиска");
+                if (searchStatus == null || searchStatus.isEmpty()) {
+                    searchStatus = "...";
+                }
                 data.add(new Object[]{
                         record.get("Имя"),
                         record.get("Фамилия"),
@@ -28,11 +33,10 @@ public class CsvUtils {
                         record.get("roles"),
                         Boolean.parseBoolean(record.get("isCV")),
                         record.get("Открытие поиска"),
-                        record.get("Статус поиска")
+                        searchStatus
                 });
             }
         }
         return data.toArray(new Object[0][0]);
     }
-
 }
