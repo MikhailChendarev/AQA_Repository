@@ -1,9 +1,7 @@
 package org.example;
 
-import com.opencsv.CSVReaderHeaderAware;
-import com.opencsv.exceptions.CsvException;
 import org.example.pages.*;
-import org.example.utils.CsvUtils;
+import org.example.utils.UserDataProvider;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
@@ -12,11 +10,7 @@ import org.testng.annotations.Test;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.io.FileReader;
-import java.io.IOException;
-import java.nio.file.Paths;
 import java.time.Duration;
-import java.util.Map;
 
 public class MainTest extends BaseTest {
 
@@ -83,14 +77,13 @@ public class MainTest extends BaseTest {
         Assert.assertTrue(coursePage.isCourseDisplayed("course"));
     }
 
-    @Test(priority = 7, dataProvider = "userData", dataProviderClass = CsvUtils.class)
+    @Test(priority = 7, dataProvider = "userData", dataProviderClass = UserDataProvider.class, alwaysRun = true)
     public void processUserDataTest(String firstName, String lastName, String email,
                                     String username, String password, String roles,
                                     boolean isCV, String searchOpening, String searchStatus) {
-        driver.get("https://aqa-admin.javacode.ru/users");
+        UsersPage usersPage = new UsersPage(driver);
         WebElement addNewUserButton = driver.findElement(By.xpath("//button[text()='+ Добавить']"));
         addNewUserButton.click();
-        UsersPage usersPage = new UsersPage(driver);
         usersPage.fillForm(firstName, lastName, email, username, password, roles, isCV, searchOpening, searchStatus);
         WebElement createNewUserButton = driver.findElement(By.xpath("//button[text()='Create']"));
         createNewUserButton.click();
