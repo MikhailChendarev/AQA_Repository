@@ -16,8 +16,8 @@ public class MainTest extends BaseTest {
 
     @Test(priority = 1)
     public void loginTest() {
-        LoginPage loginPage = new LoginPage(driver);
-        loginPage.login("chendarev_mikhail", "U9uDBD–<A8)>SkA");
+        AdminLoginPage adminLoginPage = new AdminLoginPage(driver);
+        adminLoginPage.login("chendarev_mikhail", "U9uDBD–<A8)>SkA");
         DashboardPage dashboardPage = new DashboardPage(driver);
         Assert.assertTrue(dashboardPage.isDashboardDisplayed());
     }
@@ -69,23 +69,45 @@ public class MainTest extends BaseTest {
     @Test(priority = 6)
     @Ignore
     public void createNewCourse() {
-        CoursePage coursePage = new CoursePage(driver);
+        AdminCoursePage adminCoursePage = new AdminCoursePage(driver);
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        wait.until(ExpectedConditions.visibilityOf(coursePage.courseTable));
-        Assert.assertTrue(coursePage.courseTable.isDisplayed());
-        coursePage.createCourse("course", "1001");
-        Assert.assertTrue(coursePage.isCourseDisplayed("course"));
+        wait.until(ExpectedConditions.visibilityOf(adminCoursePage.courseTable));
+        Assert.assertTrue(adminCoursePage.courseTable.isDisplayed());
+        adminCoursePage.createCourse("course", "1001");
+        Assert.assertTrue(adminCoursePage.isCourseDisplayed("course"));
     }
-
+    @Ignore
     @Test(priority = 7, dataProvider = "userData", dataProviderClass = UserDataProvider.class, alwaysRun = true)
     public void processUserDataTest(String firstName, String lastName, String email,
                                     String username, String password, String roles,
                                     boolean isCV, String searchOpening, String searchStatus) {
-        UsersPage usersPage = new UsersPage(driver);
+        AdminUsersPage usersPage = new AdminUsersPage(driver);
         WebElement addNewUserButton = driver.findElement(By.xpath("//button[text()='+ Добавить']"));
         addNewUserButton.click();
         usersPage.fillForm(firstName, lastName, email, username, password, roles, isCV, searchOpening, searchStatus);
         WebElement createNewUserButton = driver.findElement(By.xpath("//button[text()='Create']"));
         createNewUserButton.click();
+    }
+
+    @Test(priority = 8)
+    public void OpenAccessTest() {
+        AdminUsersPage usersPage = new AdminUsersPage(driver);
+        usersPage.selectUser();
+        usersPage.addItem();
+        UserLoginPage userLoginPage = new UserLoginPage(driver);
+        userLoginPage.login();
+        UserCoursePage userCoursePage = new UserCoursePage(driver);
+        userCoursePage.courseIsDisplayed();
+    }
+
+    @Test(priority = 9)
+    public void createVoiceRecordTest() {
+        UserCoursePage userCoursePage = new UserCoursePage(driver);
+        userCoursePage.clickOnCourse();
+        userCoursePage.knowledgeTest();
+        AdminLoginPage adminLoginPage = new AdminLoginPage(driver);
+        adminLoginPage.login("chendarev_mikhail", "U9uDBD–<A8)>SkA");
+        UserStatsPage userStatsPage = new UserStatsPage(driver);
+        userStatsPage.checkRecord();
     }
 }

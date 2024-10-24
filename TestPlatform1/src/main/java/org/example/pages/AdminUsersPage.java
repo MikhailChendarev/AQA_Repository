@@ -9,7 +9,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
-public class UsersPage extends BasePage {
+public class AdminUsersPage extends BasePage {
 
     @FindBy(xpath = "//small[text()='Имя']/following-sibling::input")
     private WebElement firstNameField;
@@ -50,7 +50,19 @@ public class UsersPage extends BasePage {
     @FindBy(xpath = "//button[text()='Create']")
     protected WebElement CreateNewUserButton;
 
-    public UsersPage(WebDriver driver) {
+    @FindBy(xpath = "//span[text()='chendarev_mikhail']")
+    private WebElement user;
+
+    @FindBy(xpath = "//button[text()='+ Add item']")
+    private WebElement addItemButton;
+
+    @FindBy(xpath = "//input[@class='ib']")
+    private WebElement courseIdField;
+
+    @FindBy(xpath = "//button[text()='Regenerate User's History']")
+    private WebElement regenerateUserHistoryButton;
+
+    public AdminUsersPage(WebDriver driver) {
         driver.get("https://aqa-admin.javacode.ru/users");
         PageFactory.initElements(driver, this);
     }
@@ -94,6 +106,16 @@ public class UsersPage extends BasePage {
                 wait.until(ExpectedConditions.elementToBeClickable(successButton)).click();
                 break;
         }
+    }
+
+    public void selectUser() {
+        user.click();
+    }
+
+    public void addItem() {
+        addItemButton.click();
+        courseIdField.sendKeys("1000");
+        regenerateUserHistoryButton.click();
     }
 
 }

@@ -5,7 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-public class LoginPage extends BasePage {
+public class AdminLoginPage extends BasePage {
 
     @FindBy(id = "username")
     private WebElement usernameField;
@@ -16,7 +16,7 @@ public class LoginPage extends BasePage {
     @FindBy(xpath = "//button[text()='Sign in']")
     private WebElement submitButton;
 
-    public LoginPage(WebDriver driver) {
+    public AdminLoginPage(WebDriver driver) {
         driver.get("https://aqa-admin.javacode.ru/login");
         PageFactory.initElements(driver, this);
     }
