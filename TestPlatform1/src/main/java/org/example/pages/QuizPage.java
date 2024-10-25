@@ -6,7 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-public class QuizPage extends BasePage {
+public class QuizPage extends DashboardPage {
 
     @FindBy(xpath = "//div[@class='mainCont']")
     public WebElement quizTable;
@@ -23,8 +23,7 @@ public class QuizPage extends BasePage {
     @FindBy(xpath = "//button[text()='Create']")
     private WebElement createButton;
 
-    public QuizPage(WebDriver driver) {
-        driver.get("https://aqa-admin.javacode.ru/quizes");
+    public QuizPage() {
         PageFactory.initElements(driver, this);
     }
 

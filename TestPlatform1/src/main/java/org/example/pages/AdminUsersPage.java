@@ -9,7 +9,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
-public class AdminUsersPage extends BasePage {
+public class AdminUsersPage extends DashboardPage {
 
     @FindBy(xpath = "//small[text()='Имя']/following-sibling::input")
     private WebElement firstNameField;
@@ -62,8 +62,7 @@ public class AdminUsersPage extends BasePage {
     @FindBy(xpath = "//button[text()='Regenerate User's History']")
     private WebElement regenerateUserHistoryButton;
 
-    public AdminUsersPage(WebDriver driver) {
-        driver.get("https://aqa-admin.javacode.ru/users");
+    public AdminUsersPage() {
         PageFactory.initElements(driver, this);
     }
 

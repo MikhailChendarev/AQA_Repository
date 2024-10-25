@@ -1,11 +1,10 @@
 package org.example.pages;
 
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-public class UserStatsPage extends BasePage {
+public class UserStatsPage extends DashboardPage {
 
     @FindBy(xpath = "//input[@id='combo-box-demo']")
     private WebElement inputField;
@@ -13,8 +12,7 @@ public class UserStatsPage extends BasePage {
     @FindBy(xpath = "//span[text()='test']")
     private WebElement record;
 
-    public UserStatsPage(WebDriver driver) {
-        driver.get("https://aqa-admin.javacode.ru/user-stats-new");
+    public UserStatsPage() {
         PageFactory.initElements(driver, this);
     }
 

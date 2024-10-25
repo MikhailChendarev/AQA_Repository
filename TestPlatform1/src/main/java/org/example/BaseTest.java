@@ -1,7 +1,10 @@
 package org.example;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.example.pages.AdminLoginPage;
 import org.example.pages.BasePage;
+import org.example.pages.DashboardPage;
+import org.example.pages.UserLoginPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -25,6 +28,10 @@ public class BaseTest {
         driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(10));
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         BasePage.setDriver(driver);
+        AdminLoginPage adminLoginPage = new AdminLoginPage();
+        adminLoginPage.login();
+        UserLoginPage userLoginPage = new UserLoginPage();
+        userLoginPage.login();
     }
 
     @AfterClass

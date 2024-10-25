@@ -16,8 +16,8 @@ public class UserLoginPage extends BasePage {
     @FindBy(xpath = "//button[text()='Sign in']")
     private WebElement sigInButton;
 
-    public UserLoginPage(WebDriver driver) {
-        driver.get("https://aqa.javacode.ru/login");
+    public UserLoginPage() {
+        driver.get("https://aqa.javacode.ru");
         PageFactory.initElements(driver, this);
     }
 

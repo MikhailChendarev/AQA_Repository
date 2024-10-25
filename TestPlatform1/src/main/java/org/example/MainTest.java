@@ -16,16 +16,14 @@ public class MainTest extends BaseTest {
 
     @Test(priority = 1)
     public void loginTest() {
-        AdminLoginPage adminLoginPage = new AdminLoginPage(driver);
-        adminLoginPage.login("chendarev_mikhail", "U9uDBD–<A8)>SkA");
-        DashboardPage dashboardPage = new DashboardPage(driver);
+        DashboardPage dashboardPage = new DashboardPage();
         Assert.assertTrue(dashboardPage.isDashboardDisplayed());
     }
 
     @Test(priority = 2)
     @Ignore
     public void addNewInterviewTest() {
-        InterviewsPage interviewsPage = new InterviewsPage(driver);
+        InterviewsPage interviewsPage = new InterviewsPage();
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOf(interviewsPage.interviewsTable));
         Assert.assertTrue(interviewsPage.interviewsTable.isDisplayed());
@@ -36,7 +34,7 @@ public class MainTest extends BaseTest {
     @Test(priority = 3)
     @Ignore
     public void addNewQuestionTest() {
-        QuestionPage questionPage = new QuestionPage(driver);
+        QuestionPage questionPage = new QuestionPage();
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOf(questionPage.questionTable));
         Assert.assertTrue(questionPage.questionTable.isDisplayed());
@@ -47,7 +45,7 @@ public class MainTest extends BaseTest {
     @Test(priority = 4)
     @Ignore
     public void createQuizTest() {
-        QuizPage quizPage = new QuizPage(driver);
+        QuizPage quizPage = new QuizPage();
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOf(quizPage.quizTable));
         Assert.assertTrue(quizPage.quizTable.isDisplayed());
@@ -58,7 +56,7 @@ public class MainTest extends BaseTest {
     @Test(priority = 5)
     @Ignore
     public void createModuleTest() {
-        ModulePage modulePage = new ModulePage(driver);
+        ModulePage modulePage = new ModulePage();
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOf(modulePage.moduleTable));
         Assert.assertTrue(modulePage.moduleTable.isDisplayed());
@@ -69,7 +67,7 @@ public class MainTest extends BaseTest {
     @Test(priority = 6)
     @Ignore
     public void createNewCourse() {
-        AdminCoursePage adminCoursePage = new AdminCoursePage(driver);
+        AdminCoursePage adminCoursePage = new AdminCoursePage();
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOf(adminCoursePage.courseTable));
         Assert.assertTrue(adminCoursePage.courseTable.isDisplayed());
@@ -81,7 +79,7 @@ public class MainTest extends BaseTest {
     public void processUserDataTest(String firstName, String lastName, String email,
                                     String username, String password, String roles,
                                     boolean isCV, String searchOpening, String searchStatus) {
-        AdminUsersPage usersPage = new AdminUsersPage(driver);
+        AdminUsersPage usersPage = new AdminUsersPage();
         WebElement addNewUserButton = driver.findElement(By.xpath("//button[text()='+ Добавить']"));
         addNewUserButton.click();
         usersPage.fillForm(firstName, lastName, email, username, password, roles, isCV, searchOpening, searchStatus);
@@ -91,23 +89,19 @@ public class MainTest extends BaseTest {
 
     @Test(priority = 8)
     public void OpenAccessTest() {
-        AdminUsersPage usersPage = new AdminUsersPage(driver);
+        AdminUsersPage usersPage = new AdminUsersPage();
         usersPage.selectUser();
         usersPage.addItem();
-        UserLoginPage userLoginPage = new UserLoginPage(driver);
-        userLoginPage.login();
-        UserCoursePage userCoursePage = new UserCoursePage(driver);
+        UserCoursePage userCoursePage = new UserCoursePage();
         userCoursePage.courseIsDisplayed();
     }
 
     @Test(priority = 9)
     public void createVoiceRecordTest() {
-        UserCoursePage userCoursePage = new UserCoursePage(driver);
+        UserCoursePage userCoursePage = new UserCoursePage();
         userCoursePage.clickOnCourse();
         userCoursePage.knowledgeTest();
-        AdminLoginPage adminLoginPage = new AdminLoginPage(driver);
-        adminLoginPage.login("chendarev_mikhail", "U9uDBD–<A8)>SkA");
-        UserStatsPage userStatsPage = new UserStatsPage(driver);
+        UserStatsPage userStatsPage = new UserStatsPage();
         userStatsPage.checkRecord();
     }
 }

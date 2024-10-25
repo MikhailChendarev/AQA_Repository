@@ -5,7 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-public class UserCoursePage extends BasePage {
+public class UserCoursePage extends MainPage {
 
     @FindBy(xpath = "//div[text()='test']")
     private WebElement newCourse;
@@ -19,8 +19,7 @@ public class UserCoursePage extends BasePage {
     @FindBy(xpath = "//span[text()='5']")
     private  WebElement rate5;
 
-    public UserCoursePage(WebDriver driver) {
-        driver.get("https://aqa.javacode.ru/courses");
+    public UserCoursePage() {
         PageFactory.initElements(driver, this);
     }
 
