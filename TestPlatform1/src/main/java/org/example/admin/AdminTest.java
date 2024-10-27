@@ -1,28 +1,33 @@
-package org.example;
+package org.example.admin;
 
-import org.example.pages.*;
-import org.example.utils.UserDataProvider;
+import org.example.admin.entity.Interview;
+import org.example.admin.entity.User;
+import org.example.admin.pages.*;
+import org.example.utils.TestDataProvider;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.testng.Assert;
-import org.testng.annotations.Ignore;
-import org.testng.annotations.Test;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 import java.time.Duration;
 
-public class MainTest extends BaseTest {
+public class AdminTest extends BaseAdminTest {
+
+    private DashboardPage dashboardPage;
 
     @Test(priority = 1)
     public void loginTest() {
-        DashboardPage dashboardPage = new DashboardPage();
+        AdminLoginPage adminLoginPage = new AdminLoginPage();
+        adminLoginPage.login();
+        dashboardPage = new DashboardPage();
         Assert.assertTrue(dashboardPage.isDashboardDisplayed());
     }
 
     @Test(priority = 2)
-    @Ignore
     public void addNewInterviewTest() {
+        dashboardPage.goToInterviews();
         InterviewsPage interviewsPage = new InterviewsPage();
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOf(interviewsPage.interviewsTable));
@@ -32,8 +37,8 @@ public class MainTest extends BaseTest {
     }
 
     @Test(priority = 3)
-    @Ignore
     public void addNewQuestionTest() {
+        dashboardPage.goToQuestions();
         QuestionPage questionPage = new QuestionPage();
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOf(questionPage.questionTable));
@@ -43,8 +48,8 @@ public class MainTest extends BaseTest {
     }
 
     @Test(priority = 4)
-    @Ignore
     public void createQuizTest() {
+        dashboardPage.goToQuiz();
         QuizPage quizPage = new QuizPage();
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOf(quizPage.quizTable));
@@ -54,19 +59,19 @@ public class MainTest extends BaseTest {
     }
 
     @Test(priority = 5)
-    @Ignore
     public void createModuleTest() {
+        dashboardPage.goToCourseM();
         ModulePage modulePage = new ModulePage();
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOf(modulePage.moduleTable));
         Assert.assertTrue(modulePage.moduleTable.isDisplayed());
-        modulePage.createModule("module", "1001");
+        modulePage.createModule("module", "1000");
         Assert.assertTrue(modulePage.isModuleDisplayed("module"));
     }
 
     @Test(priority = 6)
-    @Ignore
     public void createNewCourse() {
+        dashboardPage.goToCourses();
         AdminCoursePage adminCoursePage = new AdminCoursePage();
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOf(adminCoursePage.courseTable));
@@ -74,34 +79,30 @@ public class MainTest extends BaseTest {
         adminCoursePage.createCourse("course", "1001");
         Assert.assertTrue(adminCoursePage.isCourseDisplayed("course"));
     }
-    @Ignore
-    @Test(priority = 7, dataProvider = "userData", dataProviderClass = UserDataProvider.class, alwaysRun = true)
-    public void processUserDataTest(String firstName, String lastName, String email,
-                                    String username, String password, String roles,
-                                    boolean isCV, String searchOpening, String searchStatus) {
+
+    @Test(priority = 7, dataProvider = "generateRegisterUserData", dataProviderClass = TestDataProvider.class)
+    public void processUserDataTest(User user) {
+        dashboardPage.goToUsers();
         AdminUsersPage usersPage = new AdminUsersPage();
         WebElement addNewUserButton = driver.findElement(By.xpath("//button[text()='+ Добавить']"));
         addNewUserButton.click();
-        usersPage.fillForm(firstName, lastName, email, username, password, roles, isCV, searchOpening, searchStatus);
+        usersPage.fillForm(user);
         WebElement createNewUserButton = driver.findElement(By.xpath("//button[text()='Create']"));
         createNewUserButton.click();
     }
 
-    @Test(priority = 8)
-    public void OpenAccessTest() {
-        AdminUsersPage usersPage = new AdminUsersPage();
-        usersPage.selectUser();
-        usersPage.addItem();
-        UserCoursePage userCoursePage = new UserCoursePage();
-        userCoursePage.courseIsDisplayed();
+    @Test(priority = 8, dataProvider = "generateInterviewData", dataProviderClass = TestDataProvider.class)
+    public void editingInterviewTest(Interview interview) {
+        dashboardPage.goToInterviews();
+        InterviewsPage interviewsPage = new InterviewsPage();
+        interviewsPage.editInterview(interview);
     }
 
     @Test(priority = 9)
-    public void createVoiceRecordTest() {
-        UserCoursePage userCoursePage = new UserCoursePage();
-        userCoursePage.clickOnCourse();
-        userCoursePage.knowledgeTest();
-        UserStatsPage userStatsPage = new UserStatsPage();
-        userStatsPage.checkRecord();
+    public void addNewExamTest() {
+        dashboardPage.goToExams();
+        ExamPage examPage = new ExamPage();
+        examPage.createNewExam();
+        Assert.assertTrue(examPage.examIsDisplayed());
     }
 }

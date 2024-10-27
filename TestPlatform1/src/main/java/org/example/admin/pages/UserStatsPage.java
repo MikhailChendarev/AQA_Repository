@@ -1,4 +1,4 @@
-package org.example.pages;
+package org.example.admin.pages;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;

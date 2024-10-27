@@ -1,11 +1,14 @@
-package org.example.pages;
+package org.example.admin.pages;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public class ModulePage extends DashboardPage {
 
@@ -21,7 +24,7 @@ public class ModulePage extends DashboardPage {
     @FindBy(xpath = "//input[@class='form-control ' and @placeholder='name']")
     private WebElement moduleNameField;
 
-    @FindBy(xpath = "//div[@class='row sort-item sort-questions rel ' and @data-id='0']")
+    @FindBy(xpath = "//span[@class='ib' and contains(text(), '1000')]")
     private WebElement questionString;
 
     @FindBy(xpath = "//input[@class='form-control ' and @placeholder='ID для перемещения']")
@@ -38,12 +41,16 @@ public class ModulePage extends DashboardPage {
     }
 
     public void createModule(String moduleName, String questionId) {
-        addModuleButton.click();
-        moduleWindow.isDisplayed();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.elementToBeClickable(addModuleButton)).click();
+        wait.until(ExpectedConditions.visibilityOf(moduleWindow));
         moduleNameField.sendKeys(moduleName);
-        Point leftPoint = questionString.getLocation();
+        wait.until(ExpectedConditions.visibilityOf(idField));
         idField.sendKeys(questionId);
+        wait.until(ExpectedConditions.visibilityOf(questionString));
+        Point leftPoint = questionString.getLocation();
         transferButton.click();
+        wait.until(ExpectedConditions.not(ExpectedConditions.attributeToBe(questionString, "location", leftPoint.toString())));
         Point rightPoint = questionString.getLocation();
         if (!leftPoint.equals(rightPoint)) {
             createButton.click();

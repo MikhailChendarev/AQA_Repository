@@ -1,6 +1,6 @@
-package org.example.pages;
+package org.example.user.pages;
 
-import org.openqa.selenium.WebDriver;
+import org.example.BasePage;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;

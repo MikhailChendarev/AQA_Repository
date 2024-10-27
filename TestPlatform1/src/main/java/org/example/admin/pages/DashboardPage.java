@@ -1,5 +1,6 @@
-package org.example.pages;
+package org.example.admin.pages;
 
+import org.example.BasePage;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -29,6 +30,10 @@ public class DashboardPage extends BasePage {
 
     @FindBy(xpath = "//a[@href='/course-module']")
     private WebElement courseModuleLink;
+
+    @FindBy(xpath = "//a[@href='/exams']")
+    private WebElement examsLink;
+
 
 
     public DashboardPage() {
@@ -65,5 +70,9 @@ public class DashboardPage extends BasePage {
 
     public void goToCourseM() {
         courseModuleLink.click();
+    }
+
+    public void goToExams() {
+        examsLink.click();
     }
 }

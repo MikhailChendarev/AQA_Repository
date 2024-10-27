@@ -1,6 +1,6 @@
-package org.example.pages;
+package org.example.admin.pages;
 
-import org.openqa.selenium.WebDriver;
+import org.example.admin.entity.User;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -66,17 +66,15 @@ public class AdminUsersPage extends DashboardPage {
         PageFactory.initElements(driver, this);
     }
 
-    public void fillForm(String firstName, String lastName, String email,
-                         String username, String password, String roles,
-                         boolean isCV, String searchOpening, String searchStatus) {
+    public void fillForm(User user) {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        wait.until(ExpectedConditions.visibilityOf(firstNameField)).sendKeys(firstName);
-        wait.until(ExpectedConditions.visibilityOf(lastNameField)).sendKeys(lastName);
-        wait.until(ExpectedConditions.visibilityOf(emailField)).sendKeys(email);
-        wait.until(ExpectedConditions.visibilityOf(usernameField)).sendKeys(username);
-        wait.until(ExpectedConditions.visibilityOf(passwordField)).sendKeys(password);
-        wait.until(ExpectedConditions.visibilityOf(rolesField)).sendKeys(roles);
-        if (isCV) {
+        wait.until(ExpectedConditions.visibilityOf(firstNameField)).sendKeys(user.getFirstName());
+        wait.until(ExpectedConditions.visibilityOf(lastNameField)).sendKeys(user.getLastName());
+        wait.until(ExpectedConditions.visibilityOf(emailField)).sendKeys(user.getEmail());
+        wait.until(ExpectedConditions.visibilityOf(usernameField)).sendKeys(user.getUserName());
+        wait.until(ExpectedConditions.visibilityOf(passwordField)).sendKeys(user.getPassword());
+        wait.until(ExpectedConditions.visibilityOf(rolesField)).sendKeys(user.getRoles());
+        if (user.getIsCV()) {
             if (!isCVField.isSelected()) {
                 wait.until(ExpectedConditions.elementToBeClickable(isCVField)).click();
             }
@@ -85,8 +83,8 @@ public class AdminUsersPage extends DashboardPage {
                 wait.until(ExpectedConditions.elementToBeClickable(isCVField)).click();
             }
         }
-        wait.until(ExpectedConditions.visibilityOf(searchOpeningField)).sendKeys(searchOpening);
-        selectSearchStatus(searchStatus);
+        wait.until(ExpectedConditions.visibilityOf(searchOpeningField)).sendKeys(user.getSearchOpening());
+        selectSearchStatus(user.getSearchStatus());
     }
 
     private void selectSearchStatus(String searchStatus) {
