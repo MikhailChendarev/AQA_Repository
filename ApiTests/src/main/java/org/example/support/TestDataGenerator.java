@@ -1,11 +1,12 @@
 package org.example.support;
 
 import net.datafaker.Faker;
-import org.example.dto.request.UserRequest;
+import org.example.dto.request.*;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -65,6 +66,44 @@ public class TestDataGenerator {
         return users;
     }
 
+    public static List<QuizRequest.Variation> getVariationList() {
+        List<QuizRequest.Variation> variations = new ArrayList<>();
+        variations.add(new QuizRequest.Variation("", true));
+        variations.add(new QuizRequest.Variation("", null));
+        variations.add(new QuizRequest.Variation("", null));
+        return variations;
+    }
+
+    public static TemplateRequest getTemplate() {
+        TemplateRequest.Exam exam = new TemplateRequest.Exam(1005);
+        List<TemplateRequest.Exam> exams = new ArrayList<>();
+        exams.add(exam);
+        TemplateRequest.Course course = new TemplateRequest.Course(1003);
+        List<TemplateRequest.Course> courses = new ArrayList<>();
+        courses.add(course);
+        return new TemplateRequest("Test", "test", exams, courses);
+    }
+
+    public static CourseRequest getCourse() {
+        return new CourseRequest("Test", List.of(new CourseRequest.Module(1000, "test")));
+    }
+
+    public static ExamRequest getExam() {
+        return new ExamRequest("Test", 60, new ArrayList<>());
+    }
+
+    public static ModuleRequest getModule() {
+        return new ModuleRequest("тест", Arrays.asList(1000, 1001, 1002, 1005));
+    }
+
+    public static QuestionRequest getQuestion() {
+        return new QuestionRequest("question");
+    }
+
+    public static AuthRequest getLogin() {
+        return new AuthRequest("chendarev_mikhail", "U9uDBD–<A8)>SkA");
+    }
+
     private static UserRequest createUser(String firstName, String surname, String email, String username, String plainPassword, String roles, boolean isCV, String salesOpenTime, String salesStatus) {
         UserRequest userRequest = new UserRequest();
         UserRequest.CustomData customData = new UserRequest.CustomData();
@@ -80,7 +119,5 @@ public class TestDataGenerator {
         userRequest.setCustomData(customData);
         return userRequest;
     }
-
-
 
 }

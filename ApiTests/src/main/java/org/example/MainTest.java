@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import static io.restassured.RestAssured.given;
+import static io.restassured.RestAssured.request;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -34,10 +35,9 @@ public class MainTest {
     @Test
     @Order(1)
     public void loginTest() {
-        AuthRequest authRequest = new AuthRequest("chendarev_mikhail", "U9uDBD–<A8)>SkA");
         File jsonSchema = new File("src/test/resources/auth-response-schema.json");
         Specifications.installSpecification(Specifications.getRequestSpecJson(), Specifications.responseSpecOk200(jsonSchema));
-        Response response = given().body(authRequest).log().all()
+        Response response = given().body(TestDataGenerator.getLogin()).log().all()
                 .when().post("/api/auth/login")
                 .then().extract().response();
         token = response.jsonPath().getString("token");
@@ -82,11 +82,7 @@ public class MainTest {
         File jsonSchema = new File("src/test/resources/add-quiz-response-schema.json");
         Specifications.installSpecification(Specifications.getRequestSpecJson(), Specifications.responseSpecOk200(jsonSchema));
         List<QuizRequest.File> files = new ArrayList<>();
-        List<QuizRequest.Variation> variations = new ArrayList<>();
-        variations.add(new QuizRequest.Variation("", true));
-        variations.add(new QuizRequest.Variation("", null));
-        variations.add(new QuizRequest.Variation("", null));
-        QuizRequest quizRequest = new QuizRequest("quiz", true, "test", files, variations);
+        QuizRequest quizRequest = new QuizRequest("quiz", true, "test", files, TestDataGenerator.getVariationList());
         Specifications.installSpecification(Specifications.getRequestSpecJson(), Specifications.responseSpecOk200(jsonSchema));
         Response response = given().header("Authorization", token).body(quizRequest).log().all()
                 .when().post("/api/quiz")
@@ -102,8 +98,7 @@ public class MainTest {
     public void addModuleTest() {
         File jsonSchema = new File("src/test/resources/add-module-response-schema.json");
         Specifications.installSpecification(Specifications.getRequestSpecJson(), Specifications.responseSpecOk200(jsonSchema));
-        ModuleRequest moduleRequest = new ModuleRequest("тест", Arrays.asList(1000, 1001, 1002, 1005));
-        Response response = given().header("Authorization", token).body(moduleRequest).log().all()
+        Response response = given().header("Authorization", token).body(TestDataGenerator.getModule()).log().all()
                 .when().post("/api/course-module")
                 .then().extract().response();
         ModuleResponse moduleResponse = response.as(ModuleResponse.class);
@@ -118,8 +113,7 @@ public class MainTest {
     public void addCourseTest() {
         File jsonSchema = new File("src/test/resources/add-course-response-schema.json");
         Specifications.installSpecification(Specifications.getRequestSpecJson(), Specifications.responseSpecOk200(jsonSchema));
-        CourseRequest courseRequest = new CourseRequest("Test", List.of(new CourseRequest.Module(1000, "test")));
-        Response response = given().header("Authorization", token).body(courseRequest).log().all()
+        Response response = given().header("Authorization", token).body(TestDataGenerator.getCourse()).log().all()
                 .when().post("/api/course")
                 .then().extract().response();
         CourseResponse courseResponse = response.as(CourseResponse.class);
@@ -133,8 +127,7 @@ public class MainTest {
     public void addExamTest() {
         File jsonSchema = new File("src/test/resources/add-exam-response-schema.json");
         Specifications.installSpecification(Specifications.getRequestSpecJson(), Specifications.responseSpecOk200(jsonSchema));
-        ExamRequest examRequest = new ExamRequest("Test", 60, new ArrayList<>());
-        Response response = given().header("Authorization", token).body(examRequest).log().all()
+        Response response = given().header("Authorization", token).body(TestDataGenerator.getExam()).log().all()
                 .when().post("/api/exam")
                 .then().extract().response();
         ExamResponse examResponse = response.as(ExamResponse.class);
@@ -145,8 +138,18 @@ public class MainTest {
         assertEquals(examResponse.getData().get_id(), foundExam.getInteger("_id"));
     }
 
+    @Test
+    public void addTemplateTest() {
+        File jsonSchema = new File("src/test/resources/add-template-response-schema.json");
+        Specifications.installSpecification(Specifications.getRequestSpecJson(), Specifications.responseSpecOk200(jsonSchema));
+        Response response = given().body(TestDataGenerator.getTemplate()).log().all()
+                .when().post("/api/user-hr-template")
+                .then().extract().response();
+        TemplateResponse templateResponse = response.as(TemplateResponse.class);
+        System.out.println(response.asPrettyString());
+        Document foundTemplate = DbService.getTemplateFromDatabase(templateResponse);
+        assertNotNull(foundTemplate, "Шаблон не найден в базе данных");
+        assertEquals(templateResponse.getData().get_id(), foundTemplate.getInteger("_id"));
+    }
+
 }
-
-
-
-
