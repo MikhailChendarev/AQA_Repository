@@ -2,7 +2,6 @@ package org.example.service;
 
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
-import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 import org.example.dto.response.*;
@@ -12,11 +11,9 @@ public class DbService {
 
     private static final MongoClient mongoClient = MongoClients.create("mongodb://javacode:bestEducationEver@80.66.64.141:27017/estim?authSource=admin");
     private static final MongoDatabase database = mongoClient.getDatabase("estim");
-    private static MongoCollection<Document> collection;
 
     public static Document getUserFromDatabase(UserResponse userResponse) {
-        collection = database.getCollection("users");
-        return collection.find(new Document("_id", userResponse.getData().get_id())).first();
+        return database.getCollection("users").find(new Document("_id", userResponse.getData().get_id())).first();
 
     }
 
