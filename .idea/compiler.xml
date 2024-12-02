@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="GeometryLibrary" />
+        <module name="UndoStringBuilder" />
+        <module name="TestPlatform1" />
+        <module name="NewTest" />
+        <module name="GeometryApp" />
+        <module name="Collection1" />
+        <module name="Stream1" />
+        <module name="LDT" />
+        <module name="Collection2" />
+        <module name="Stream3" />
+        <module name="Stream2" />
+      </profile>
+    </annotationProcessing>
+  </component>
+</project>

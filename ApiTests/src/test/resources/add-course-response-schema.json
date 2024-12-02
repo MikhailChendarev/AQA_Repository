@@ -1,0 +1,29 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "data": {
+      "type": "object",
+      "properties": {
+        "_id": { "type": "integer" },
+        "name": { "type": "string" },
+        "user": { "type": "integer" },
+        "modules": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "module": { "type": "integer" },  
+              "name": { "type": "string" }
+            },
+            "required": ["module", "name"]
+          }
+        },
+        "cd": { "type": "string", "format": "date-time" },
+        "inviteId": { "type": "string" }
+      },
+      "required": ["_id", "name", "user", "modules", "cd", "inviteId"]
+    }
+  },
+  "required": ["data"]
+}
